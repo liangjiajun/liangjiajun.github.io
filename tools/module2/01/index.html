@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>轮换图片-单个滚动</title>
+	<link rel="stylesheet" type="text/css" href="../../Style/reset.css">
+	<link rel="stylesheet" type="text/css" href="../../Style/mold.css">
+	<link rel="stylesheet" type="text/css" href="../../Style/prism.css">
+	<style id="cssCode">
+        .wrapper {
+            text-align: center;
+            width: 600px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .img-li-float {
+            float: left;
+            width: 600px;
+            line-height: 210px;
+            font-size: 60px;
+        }
+        #box {
+            width: 600px;
+            position: relative;
+            height: 210px;
+            background: #cbf;
+            overflow: hidden;
+        }
+        #box ul {
+            z-index: 2;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 6000px;
+        }
+        .banner-ico-box {
+            position: absolute;
+            left: 0;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            z-index: 4;
+        }
+        .banner-ico-box a {
+            width: 10px;
+            height: 10px;
+            display: inline-block;
+            background: #000;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .banner-ico-box .active {
+            background: #fff;
+        }
+        .banner-left-btn, .banner-right-btn {
+            z-index: 3;
+            width: 50px;
+            line-height: 50px;
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            margin-top: -25px;
+            font-family: 'SimHei';
+            font-weight: bold;
+            font-size: 30px;
+            text-align: center;
+            color:#fff;
+            background: #000;
+            cursor: pointer;
+        }
+
+        .banner-left-btn {left: 0; }
+        .banner-right-btn {right: 0; }
+
+	</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="activeArea" id="activeArea">
+        <div class="justifyAuto">
+            <h3>轮换图片-单个滚动</h3>
+            <div class="wrapper">
+                <div id="box">
+                    <ul>
+                        <li class="img-li-float">1</li>
+                        <li class="img-li-float">2</li>
+                        <li class="img-li-float">3</li>
+                        <li class="img-li-float">4</li>
+                        <li class="img-li-float">5</li>
+                    </ul>
+                    <div id="ico" class="banner-ico-box">
+                        <a class="active"></a>
+                        <a></a>
+                        <a></a>
+                        <a></a>
+                        <a></a>
+                    </div>
+                    <a id="prev" class="banner-left-btn">&lt;</a>
+                    <a id="next" class="banner-right-btn">&gt;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <span class="codeHideBtn" id="codeHideBtn">&gt;</span>
+    <div class="codeArea" id="codeArea">
+        <div class="code-area">
+            <h3>HTML Code </h3>
+            <pre class="language-html">
+                <code>
+                    <textarea disabled  id="htmlArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+        <div class="code-area">
+            <h3>CSS Code </h3>
+            <pre class="language-css">
+                <code>
+                    <textarea disabled  id="cssArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+        <div class="code-area" >
+            <h3>JavaScript Code </h3>
+            <pre class="language-javascript">
+                <code>
+                    <textarea disabled id="jsArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script id="jsCode">
+    var box = document.getElementById('box');
+    var ul = box.getElementsByTagName('ul')[0];
+        ul.innerHTML += ul.innerHTML;
+
+    var li = ul.getElementsByTagName('li'),
+        l = li.length,
+        len = li.length / 2;
+
+    var ico = document.getElementById('ico').getElementsByTagName('a'),
+        prev = document.getElementById('prev'),
+        next = document.getElementById('next'),
+        li_w = 0,
+        timer = null,
+        now = 0;
+    li_w = li[0].offsetWidth;//单页滚动的距离
+
+    timer = setInterval(auto, 2000);
+    function auto(){next.onclick();}
+
+    prev.onclick = function(){
+        if(now > 0){
+            now--;
+        } else {
+            now = len - 1;
+            ul.style.left = -(li_w * len) + 'px';
+        }
+        scroll();
+
+    }
+    next.onclick = function(){
+        if(now < l - 1){
+            now++;
+        } else {
+            now = len;
+            ul.style.left = -(li_w * (len - 1)) + 'px';
+        }
+        scroll();
+    }
+
+    box.onmouseover = function(){clearInterval(timer); }
+    box.onmouseout = function(){timer = setInterval(auto, 3000);}
+
+    function scroll(){
+        act(ul,'left',-li_w * (now));
+        tab();
+    }
+
+    /*小图标的状态*/
+    function tab(){
+        for(var i = 0; i < ico.length; i++){
+            ico[i].className = '';
+        }
+        ico[now % 5].className = 'active';
+    }
+    /*获取元素的style*/
+    function css(obj, attr){
+        return obj.currentStyle ? obj.currentStyle[attr] :  getComputedStyle(obj, false)[attr];
+    }
+    /*轮播的移动动作*/
+    function act(obj, attr, target){
+        obj.timer && clearInterval(obj.timer);
+        obj.timer = setInterval(function(){
+            var cur = parseInt(css(obj, attr));
+            var speed = (target - cur) / 6;
+            speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+            if(cur != target){
+                obj.style[attr] = cur + speed + 'px';
+            }
+        }, 30);
+    }
+
+
+</script>
+<script src="../../Javascript/prism.js"></script>
+<script src="../../Javascript/mold.js"></script>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>禁止选框复制和粘贴</title>
+    <link rel="stylesheet" type="text/css" href="../../Style/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../Style/mold.css">
+    <link rel="stylesheet" type="text/css" href="../../Style/prism.css">
+    <style id="cssCode">
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="activeArea" id="activeArea">
+        <div class="justifyAuto">
+            <h3>禁止选框复制和粘贴</h3>
+            <form onsubmit="return false" role="form" id="form">
+                <label>
+                    Username:
+                    <input type="text" >
+                </label>
+                <label>
+                    Password:
+                    <input type="text" >
+                </label>
+                <button>提交</button>
+            </form>
+        </div>
+    </div>
+    <span class="codeHideBtn" id="codeHideBtn">&gt;</span>
+    <div class="codeArea" id="codeArea">
+        <div class="code-area">
+            <h3>HTML Code </h3>
+            <pre class="language-*">
+                <code>
+                    <textarea disabled  id="htmlArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+        <div class="code-area">
+            <h3>CSS Code </h3>
+            <pre class="language-css">
+                <code>
+                    <textarea disabled  id="cssArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+        <div class="code-area" >
+            <h3>JavaScript Code </h3>
+            <pre class="language-*">
+                <code>
+                    <textarea disabled id="jsArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script id="jsCode">
+(function(){
+    var formArea = document.getElementById('form'),
+        formInput = formArea.getElementsByTagName('input');
+    for(var i =0;i<formInput.length;i++){
+        formInput[i].oncopy = formInput[i].onpaste = function(){
+            return false;
+        }
+    }
+}())
+</script>
+<script src="../../Javascript/prism.js"></script>
+<script src="../../Javascript/mold.js"></script>
