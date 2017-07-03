@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>键盘控制方向（斜）</title>
+    <link rel="stylesheet" type="text/css" href="../../Style/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../Style/mold.css">
+    <link rel="stylesheet" type="text/css" href="../../Style/prism.css">
+    <style id="cssCode">
+      #div1 {
+        background: red;
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        left: 40%;
+        top: 400px;
+        z-index: 999;
+      }
+
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="activeArea" id="activeArea">
+        <div class="justifyAuto">
+            <h3>键盘控制方向（斜方向亦行）</h3>
+            <div id="div1"></div>
+        </div>
+    </div>
+    <span class="codeHideBtn" id="codeHideBtn">&gt;</span>
+    <div class="codeArea" id="codeArea">
+        <div class="code-area">
+            <h3>HTML Code </h3>
+            <pre class="language-html">
+                <code>
+                    <textarea disabled  id="htmlArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+        <div class="code-area">
+            <h3>CSS Code </h3>
+            <pre class="language-css">
+                <code>
+                    <textarea disabled  id="cssArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+        <div class="code-area" >
+            <h3>JavaScript Code </h3>
+            <pre class="language-javascript">
+                <code>
+                    <textarea disabled id="jsArea">
+
+                    </textarea>
+                </code>
+            </pre>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script  id="jsCode">
+  var obj=document.getElementById("div1");
+  var objw = document.documentElement.clientWidth - 120;
+  var objh = document.documentElement.clientHeight- 120;
+
+  var flag = {u:false,d:false,l:false,r:false};
+
+  document.onkeydown = function(e){
+    switch(e.keyCode){
+      case 37: flag.l = true; break;
+      case 39:flag.r = true; break;
+      case 38:flag.u = true; break;
+      case 40:flag.d = true; break;
+    }
+  }
+
+  document.onkeyup = function(e){
+    switch(e.keyCode){
+      case 37: flag.l = false;break;
+      case 39:flag.r = false;break;
+      case 38:flag.u = false;break;
+      case 40:flag.d = false;break;
+    }
+  }
+
+  setInterval(function(){
+      if (flag.l){
+        obj.style.left=obj.offsetLeft-20 + "px";
+      }
+      if (flag.r){
+        obj.style.left=obj.offsetLeft+20 + "px";
+      }
+      if (flag.u){
+        obj.style.top=obj.offsetTop-20 + "px";
+      }
+      if (flag.d){
+        obj.style.top=obj.offsetTop+20 + "px";
+      }
+  },100);
+
+
+
+</script>
+<script src="../../Javascript/prism.js"></script>
+<script src="../../Javascript/mold.js"></script>
